@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 
 import Cell from "./Cell";
+
 export default function Row(props) {
   return (
     <View style={styles.container}>
