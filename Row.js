@@ -5,8 +5,16 @@ import Cell from "./Cell";
 export default function Row(props) {
   return (
     <View style={styles.container}>
-      {props.row.map((cell) => {
-        return <Cell cell={cell} />;
+      {props.row.map((cellValue, columnIndex) => {
+        return (
+          <Cell
+            key={columnIndex}
+            cellValue={cellValue}
+            dispatch={props.dispatch}
+            rowIndex={props.rowIndex}
+            columnIndex={columnIndex}
+          />
+        );
       })}
     </View>
   );

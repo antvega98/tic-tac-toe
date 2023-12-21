@@ -5,12 +5,26 @@ import { useReducer } from "react";
 import make2DArray from "./make2DArray";
 import Board from "./Board";
 
+import copy2DArray from "./copy2DArray";
+
 function reducer(state, action) {
+  switch (action.type) {
+    case "make-move": {
+      const newBoard = copy2DArray(state.board);
+      newBoard[action.rowIndex][action.columnIndex] = state.player;
+
+      return {
+        ...state,
+        board: newBoard,
+        player: state.player === "X" ? "O" : "X",
+      };
+    }
+  }
   return state;
 }
 
 function makeState() {
-  return { board: make2DArray(3, 3, "O") };
+  return { board: make2DArray(3, 3, null), player: "X" };
 }
 
 export default function App() {
@@ -19,7 +33,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Board board={state.board} />
+      <Board board={state.board} dispatch={dispatch} />
     </View>
   );
 }

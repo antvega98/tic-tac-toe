@@ -1,7 +1,7 @@
 export default function make2DArray(rows, columns, value) {
   return Array(rows)
     .fill(null)
-    .map((arr) => Array(columns).fill(value));
+    .map(() => Array(columns).fill(value));
   //   let twoDArray = [];
   //   for (let i = 0; i < rows; ++i) {
   //     let newArr = [];

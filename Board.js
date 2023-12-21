@@ -5,8 +5,13 @@ import Row from "./Row";
 export default function Board(props) {
   return (
     <View style={styles.container}>
-      {props.board.map((row) => (
-        <Row row={row} />
+      {props.board.map((row, rowIndex) => (
+        <Row
+          key={rowIndex}
+          row={row}
+          dispatch={props.dispatch}
+          rowIndex={rowIndex}
+        />
       ))}
     </View>
   );
