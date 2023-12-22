@@ -10,9 +10,13 @@ import copy2DArray from "./copy2DArray";
 function reducer(state, action) {
   switch (action.type) {
     case "make-move": {
+      if (state.board[action.rowIndex][action.columnIndex] !== null) {
+        return {
+          ...state,
+        };
+      }
       const newBoard = copy2DArray(state.board);
       newBoard[action.rowIndex][action.columnIndex] = state.player;
-
       return {
         ...state,
         board: newBoard,
