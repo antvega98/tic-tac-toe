@@ -2,20 +2,18 @@ import { View, Text, StyleSheet } from "react-native";
 
 import Cell from "./Cell";
 
-export default function Row(props) {
+export default function Row({ row, dispatch, rowIndex }) {
   return (
     <View style={styles.container}>
-      {props.row.map((cellValue, columnIndex) => {
-        return (
-          <Cell
-            key={columnIndex}
-            cellValue={cellValue}
-            dispatch={props.dispatch}
-            rowIndex={props.rowIndex}
-            columnIndex={columnIndex}
-          />
-        );
-      })}
+      {row.map((cellValue, columnIndex) => (
+        <Cell
+          key={columnIndex}
+          cellValue={cellValue}
+          dispatch={dispatch}
+          rowIndex={rowIndex}
+          columnIndex={columnIndex}
+        />
+      ))}
     </View>
   );
 }
