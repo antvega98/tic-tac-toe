@@ -1,19 +1,20 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Cell({ dispatch, rowIndex, columnIndex, cellValue }) {
+  const Container = cellValue === null ? TouchableOpacity : View;
+  const onPress =
+    cellValue === null
+      ? () =>
+          dispatch({
+            type: "make-move",
+            rowIndex: rowIndex,
+            columnIndex: columnIndex,
+          })
+      : undefined;
   return (
-    <TouchableOpacity
-      onPress={() => {
-        dispatch({
-          type: "make-move",
-          rowIndex: rowIndex,
-          columnIndex: columnIndex,
-        });
-      }}
-      style={styles.container}
-    >
+    <Container onPress={onPress} style={styles.container}>
       <Text style={styles.text}>{cellValue}</Text>
-    </TouchableOpacity>
+    </Container>
   );
 }
 

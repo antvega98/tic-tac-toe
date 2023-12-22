@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { useReducer } from "react";
 
 import make2DArray from "./make2DArray";
@@ -10,25 +10,24 @@ import copy2DArray from "./copy2DArray";
 function reducer(state, action) {
   switch (action.type) {
     case "make-move": {
-      if (state.board[action.rowIndex][action.columnIndex] !== null) {
-        return {
-          ...state,
-        };
-      }
       const newBoard = copy2DArray(state.board);
-      newBoard[action.rowIndex][action.columnIndex] = state.player;
+      newBoard[action.rowIndex][action.columnIndex] =
+        state.moveCount % 2 === 0 ? "X" : "O";
       return {
         ...state,
         board: newBoard,
-        player: state.player === "X" ? "O" : "X",
+        moveCount: state.moveCount + 1,
       };
+    }
+    case "reset-game": {
+      return makeState();
     }
   }
   return state;
 }
 
 function makeState() {
-  return { board: make2DArray(3, 3, null), player: "X" };
+  return { board: make2DArray(3, 3, null), moveCount: 0 };
 }
 
 export default function App() {
@@ -38,6 +37,12 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Board board={state.board} dispatch={dispatch} />
+      {state.moveCount === 9 && (
+        <Button
+          title="New Game"
+          onPress={() => dispatch({ type: "reset-game" })}
+        ></Button>
+      )}
     </View>
   );
 }
