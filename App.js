@@ -6,17 +6,28 @@ import make2DArray from "./make2DArray";
 import Board from "./Board";
 
 import copy2DArray from "./copy2DArray";
+import computeResult from "./computeResult";
+import GameDescription from "./GameDescription";
 
 function reducer(state, action) {
   switch (action.type) {
     case "make-move": {
+      if (state.gameOver) {
+        return state;
+      }
+
       const newBoard = copy2DArray(state.board);
       newBoard[action.rowIndex][action.columnIndex] =
         state.moveCount % 2 === 0 ? "X" : "O";
+
+      const { isGameOver, winner } = computeResult(newBoard);
+      console.log("Game over: ", isGameOver, " winner: ", winner);
       return {
         ...state,
         board: newBoard,
         moveCount: state.moveCount + 1,
+        isGameOver: isGameOver,
+        winner: winner,
       };
     }
     case "reset-game": {
@@ -27,7 +38,12 @@ function reducer(state, action) {
 }
 
 function makeState() {
-  return { board: make2DArray(3, 3, null), moveCount: 0 };
+  return {
+    board: make2DArray(3, 3, null),
+    moveCount: 0,
+    isGameOver: false,
+    winner: null,
+  };
 }
 
 export default function App() {
@@ -37,12 +53,17 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Board board={state.board} dispatch={dispatch} />
-      {state.moveCount === 9 && (
+      {state.isGameOver ? (
         <Button
           title="New Game"
           onPress={() => dispatch({ type: "reset-game" })}
-        ></Button>
-      )}
+        />
+      ) : null}
+      <GameDescription
+        winner={state.winner}
+        isGameOver={state.isGameOver}
+        moveCount={state.moveCount}
+      />
     </View>
   );
 }
