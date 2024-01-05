@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import { useReducer } from "react";
 
 import make2DArray from "./make2DArray";
@@ -21,7 +21,6 @@ function reducer(state, action) {
         state.moveCount % 2 === 0 ? "X" : "O";
 
       const { isGameOver, winner } = computeResult(newBoard);
-      console.log("Game over: ", isGameOver, " winner: ", winner);
       return {
         ...state,
         board: newBoard,
@@ -53,12 +52,14 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Board board={state.board} dispatch={dispatch} />
-      {state.isGameOver ? (
-        <Button
-          title="New Game"
+      {state.isGameOver && (
+        <TouchableOpacity
+          style={styles.newGameButton}
           onPress={() => dispatch({ type: "reset-game" })}
-        />
-      ) : null}
+        >
+          <Text style={styles.newGameButtonText}>New Game</Text>
+        </TouchableOpacity>
+      )}
       <GameDescription
         winner={state.winner}
         isGameOver={state.isGameOver}
@@ -74,5 +75,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  newGameButton: {
+    position: "absolute",
+    bottom: 100,
+    padding: 12,
+    borderRadius: 8,
+    backgroundColor: "blue",
+  },
+  newGameButtonText: {
+    fontSize: 20,
+    color: "white",
   },
 });

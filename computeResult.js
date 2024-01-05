@@ -5,7 +5,7 @@ const DIRECTIONS = [
   // vertical
   [1, 0],
 
-  // diagnol
+  // diagonal
   [1, 1],
   [1, -1],
 ];
@@ -21,7 +21,7 @@ export default function computeResult(board) {
         hasEmptyCells = true;
         continue;
       }
-      // At every position, must check all winning possibilities (horizontal, vertical, diagnol)
+      // At every position, must check all winning possibilities (horizontal, vertical, diagonal)
       for (const [di, dj] of DIRECTIONS) {
         // for every direction, keep traversing in the direction to determine results
         let count = 1;
